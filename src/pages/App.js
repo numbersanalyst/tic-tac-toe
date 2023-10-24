@@ -63,6 +63,7 @@ function Board({ xIsNext, squares, onPlay, currentMove }) {
 export default function Game() {
   const [history, setHistory] = useState([Array(9).fill(null)]);
   const [currentMove, setCurrentMove] = useState(0);
+  const [sortDescending, setSortDescending] = useState(false);
   const xIsNext = currentMove % 2 === 0;
   const currentSquares = history[currentMove];
 
@@ -98,6 +99,8 @@ export default function Game() {
     return <li key={move}>{listElement}</li>;
   });
 
+  const sortedMoves = sortDescending ? moves.slice().reverse() : moves;
+
   return (
     <div className="game">
       <div className="game-board">
@@ -109,7 +112,8 @@ export default function Game() {
         />
       </div>
       <div className="game-info">
-        <ol>{moves}</ol>
+        <label><input onChange={() => setSortDescending(!sortDescending)} type="checkbox" />&nbsp;Sort by descending order</label>
+        <ol>{sortedMoves}</ol>
       </div>
     </div>
   );
