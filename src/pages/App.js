@@ -67,7 +67,7 @@ export default function Game() {
     const nextHistory = [...history.slice(0, currentMove + 1), nextSquares];
     setHistory(nextHistory);
     setCurrentMove(nextHistory.length - 1);
-    if (currentMove === 9) {gameEnd = true;}
+    if (currentMove === 9) { gameEnd = true; }
   }
 
   function jumpTo(nextMove) {
@@ -82,12 +82,12 @@ export default function Game() {
       description = "Back to game start.";
     }
 
-
     if (move !== currentMove) {
       listElement = (<button onClick={() => jumpTo(move)}>{description}</button>);
     }
     else {
-      description = `You are at move #${move}.`;
+      if (move > 0) { description = `You are at move #${move}.`; }
+      else { description = "You are on game start.";}
       listElement = (<p>{description}</p>);
     }
 
