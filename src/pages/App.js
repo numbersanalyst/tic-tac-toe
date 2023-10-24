@@ -62,7 +62,6 @@ export default function Game() {
     const nextHistory = [...history.slice(0, currentMove + 1), nextSquares];
     setHistory(nextHistory);
     setCurrentMove(nextHistory.length - 1);
-    setXIsNext(!xIsNext);
   }
 
   function jumpTo(nextMove) {
