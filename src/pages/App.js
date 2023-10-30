@@ -122,7 +122,7 @@ export default function Game() {
   return (
     <>
       <h1 className="font-bold text-6xl mb-14 ">Tic Tac Toe</h1>
-      <div className="flex flex-col md:flex-row">
+      <div className="flex flex-col items-center md:flex-row md:items-start">
         <div className="game-board">
           <Board
             xIsNext={xIsNext}
