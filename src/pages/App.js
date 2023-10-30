@@ -2,7 +2,10 @@ import React, { useState } from "react";
 
 function Square({ value, onSquareClick, isWin }) {
   return (
-    <button className={`square ${isWin ? "winning-square" : ""}`} onClick={onSquareClick}>
+    <button
+      className={`square ${isWin ? "winning-square" : ""}`}
+      onClick={onSquareClick}
+    >
       {value}
     </button>
   );
@@ -46,13 +49,13 @@ function Board({ xIsNext, squares, onPlay, currentMove }) {
           value={squares[squareIndex]}
           onSquareClick={() => handleClick(squareIndex)}
           isWin={isWinningSquare}
-        />
+        />,
       );
     }
     board.push(
       <div key={row} className="board-row">
         {rowSquares}
-      </div>
+      </div>,
     );
   }
 
@@ -65,14 +68,19 @@ function Board({ xIsNext, squares, onPlay, currentMove }) {
 }
 
 export default function Game() {
-  const [history, setHistory] = useState([{ squares: Array(9).fill(null), position: null }]);
+  const [history, setHistory] = useState([
+    { squares: Array(9).fill(null), position: null },
+  ]);
   const [currentMove, setCurrentMove] = useState(0);
   const [sortDescending, setSortDescending] = useState(false);
   const xIsNext = currentMove % 2 === 0;
   const currentSquares = history[currentMove].squares;
 
   function handlePlay(nextSquares, index) {
-    const nextHistory = [...history.slice(0, currentMove + 1), { squares: nextSquares, position: index }];
+    const nextHistory = [
+      ...history.slice(0, currentMove + 1),
+      { squares: nextSquares, position: index },
+    ];
     setHistory(nextHistory);
     setCurrentMove(nextHistory.length - 1);
   }
@@ -121,7 +129,13 @@ export default function Game() {
         />
       </div>
       <div className="game-info">
-        <label><input onChange={() => setSortDescending(!sortDescending)} type="checkbox" />&nbsp;Sort by descending order</label>
+        <label>
+          <input
+            onChange={() => setSortDescending(!sortDescending)}
+            type="checkbox"
+          />
+          &nbsp;Sort by descending order
+        </label>
         <ol>{sortedMoves}</ol>
       </div>
     </div>
@@ -142,7 +156,7 @@ function calculateWinner(squares) {
   for (let i = 0; i < lines.length; i++) {
     const [a, b, c] = lines[i];
     if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
-      return {symbol: squares[a], lines: lines[i]};
+      return { symbol: squares[a], lines: lines[i] };
     }
   }
   return null;
