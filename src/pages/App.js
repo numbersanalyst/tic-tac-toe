@@ -3,7 +3,8 @@ import React, { useState } from "react";
 function Square({ value, onSquareClick, isWin }) {
   return (
     <button
-      className={`square ${isWin ? "winning-square" : ""}`}
+      className={`mr-4 mt-4 flex items-center justify-center w-16 h-16 p-6 rounded-md text-5xl font-semibold  shadow-lg shadow-slate-800 ${isWin ? "text-slate-100 bg-blue-600 motion-safe:animate-pulse" : "bg-slate-200 text-slate-900"
+        }`}
       onClick={onSquareClick}
     >
       {value}
@@ -53,7 +54,7 @@ function Board({ xIsNext, squares, onPlay, currentMove }) {
       );
     }
     board.push(
-      <div key={row} className="board-row">
+      <div key={row} className="grid grid-cols-3">
         {rowSquares}
       </div>,
     );
@@ -61,7 +62,7 @@ function Board({ xIsNext, squares, onPlay, currentMove }) {
 
   return (
     <>
-      <div className="status">{status}</div>
+      <div className={`font-semibold text-2xl mb-1 ${winner ? "text-blue-500" : ""}`}>{status}</div>
       {board}
     </>
   );
@@ -103,14 +104,14 @@ export default function Game() {
     }
 
     if (move !== currentMove) {
-      listElement = <button onClick={() => jumpTo(move)}>{description}</button>;
+      listElement = <button className="w-full px-4 py-2 text-white rounded-lg cursor-pointer bg-slate-700" onClick={() => jumpTo(move)}>{description}</button>;
     } else {
       if (move > 0) {
         description = `You are at move #${move}. Position: (${row},${col})`;
       } else {
         description = "You are on game start.";
       }
-      listElement = <p>{description}</p>;
+      listElement = <p className="w-full px-4 py-2 text-white rounded-lg cursor-pointer bg-slate-800 ">{description}</p>;
     }
 
     return <li key={move}>{listElement}</li>;
@@ -119,26 +120,34 @@ export default function Game() {
   const sortedMoves = sortDescending ? moves.slice().reverse() : moves;
 
   return (
-    <div className="game">
-      <div className="game-board">
-        <Board
-          xIsNext={xIsNext}
-          squares={currentSquares}
-          onPlay={handlePlay}
-          currentMove={currentMove}
-        />
-      </div>
-      <div className="game-info">
-        <label>
-          <input
-            onChange={() => setSortDescending(!sortDescending)}
-            type="checkbox"
+    <>
+      <h1 className="font-bold text-6xl mb-14 ">Tic Tac Toe</h1>
+      <div className="flex flex-col md:flex-row">
+        <div className="game-board">
+          <Board
+            xIsNext={xIsNext}
+            squares={currentSquares}
+            onPlay={handlePlay}
+            currentMove={currentMove}
           />
-          &nbsp;Sort by descending order
-        </label>
-        <ol>{sortedMoves}</ol>
-      </div>
-    </div>
+        </div>
+        <div className="md:ml-8 mt-8 md:mt-0 w-[290px] h-[435px]">
+          <p className="font-semibold mb-5">Game history</p>
+          <div className="border p-4 rounded-xl shadow-sm shadow-slate-800">
+
+            <label class="relative inline-flex items-center cursor-pointer">
+              <input type="checkbox" onClick={() => { setSortDescending(!sortDescending) }} value="" class="sr-only peer" />
+              <div class="w-11 h-6 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-800 rounded-full peer bg-gray-800 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all border-gray-600 peer-checked:bg-blue-600"></div>
+              <span class="ml-3 text-sm font-medium text-gray-300">Sort by descending order</span>
+            </label>
+
+            <div className="text-sm font-medium border rounded-lg bg-gray-700 border-gray-600 text-white mt-2">
+              <ol>{sortedMoves}</ol>
+            </div>
+          </div>
+        </div>
+      </div >
+    </>
   );
 }
 
